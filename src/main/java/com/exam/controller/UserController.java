@@ -5,8 +5,12 @@ import com.exam.model.Role;
 import com.exam.model.User;
 import com.exam.model.UserRole;
 import com.exam.service.UserService;
+
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -14,23 +18,26 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("*")
+@CrossOrigin(origins="http://localhost:4200")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @Autowired
-
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
+   
     //creating user
-    @PostMapping("/")
+    @PostMapping("/register-user")
     public User createUser(@RequestBody User user) throws Exception {
-
+     
 
         user.setProfile("default.png");
         //encoding password with bcryptpasswordencoder
 
-        user.setPassword(user.getPassword());
+        user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+
 
         Set<UserRole> roles = new HashSet<>();
 
@@ -59,8 +66,8 @@ public class UserController {
     public void deleteUser(@PathVariable("userId") Long userId) {
         this.userService.deleteUser(userId);
     }
-
-
+     
+  
     //update api
 
 

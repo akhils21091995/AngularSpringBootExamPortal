@@ -17,9 +17,11 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableWebSecurity
+@CrossOrigin("*")
 public class MySecurityConfig {
 
 	@Autowired
@@ -32,8 +34,8 @@ public class MySecurityConfig {
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
@@ -54,7 +56,7 @@ public class MySecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.csrf().disable().cors().disable().authorizeHttpRequests().requestMatchers("/generate-token", "/user/")
+		http.csrf().disable().cors().disable().authorizeHttpRequests().requestMatchers("/generate-token", "/user/*")
 				.permitAll().requestMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated().and()
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

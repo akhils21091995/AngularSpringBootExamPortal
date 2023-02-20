@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.exam.helper.UserFoundException;
 import com.exam.model.Role;
@@ -20,7 +24,8 @@ public class ExamserverApplication implements CommandLineRunner {
 
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
   
     public static void main(String[] args) {
 
@@ -29,21 +34,21 @@ public class ExamserverApplication implements CommandLineRunner {
 
 
     }
+   
 
     @Override
     public void run(String... args) throws Exception {
-       // try {
+       try {
 
 
             System.out.println("starting code");
-//
-            /*User user = new User();
+            User user = new User();
 
-            user.setFirstName("Durgesh");
-            user.setLastName("Tiwari");
-            user.setUsername("durgesh8896");
-            user.setPassword("abc");
-            user.setEmail("abc@gmail.com");
+            user.setFirstName("Akhil");
+            user.setLastName("Akkenani");
+            user.setUsername("akhils483");
+            user.setPassword(this.bCryptPasswordEncoder.encode("Mani@2109"));
+            user.setEmail("akhils483@gmail.com");
             user.setProfile("default.png");
 
             Role role1 = new Role();
@@ -67,7 +72,8 @@ public class ExamserverApplication implements CommandLineRunner {
             e.printStackTrace();
 
 
-        }*/
+        }
 	}
 
+   
 }

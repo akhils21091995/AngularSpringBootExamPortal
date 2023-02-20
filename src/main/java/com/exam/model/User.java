@@ -1,5 +1,6 @@
 package com.exam.model;
 
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.exam.controller.OrderResponse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -18,6 +20,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 @Component
 @Entity
 @Table(name = "users")
@@ -38,6 +41,9 @@ public class User implements UserDetails {
     private String phone;
     private boolean enabled = true;
     private String profile;
+    BigInteger amount;
+    @Transient
+    private OrderResponse orderRespons;
 
     //user many roles
 
@@ -58,7 +64,7 @@ public class User implements UserDetails {
         this.userRoles = userRoles;
     }
 
-    public User(Long id, String username, String password, String firstName, String lastName, String email, String phone, boolean enabled, String profile) {
+    public User(Long id, String username, String password, String firstName, String lastName, String email, String phone, boolean enabled, String profile,BigInteger amount) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -68,6 +74,7 @@ public class User implements UserDetails {
         this.phone = phone;
         this.enabled = enabled;
         this.profile = profile;
+        this.amount = amount;
     }
 
     public String getProfile() {
@@ -168,4 +175,20 @@ public class User implements UserDetails {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    public BigInteger getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigInteger amount) {
+		this.amount = amount;
+	}
+
+	public OrderResponse getOrderRespons() {
+		return orderRespons;
+	}
+
+	public void setOrderRespons(OrderResponse orderRespons) {
+		this.orderRespons = orderRespons;
+	}
 }
