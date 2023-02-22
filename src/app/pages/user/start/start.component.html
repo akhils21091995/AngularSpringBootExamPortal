@@ -1,0 +1,96 @@
+<div class="bootstrap-wrapper" *ngIf="!isSubmit">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <mat-card style="margin-top: 70px">
+                    <mat-card-content>
+                <!-- instructions -->
+                <h3><b>Instructions</b></h3>
+                <ul>
+                    <li>Don't reload the page</li>
+                    <li>Don't switch the tabs</li>
+                    <li>Don't minimize the window</li>
+                </ul>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="col-md-8">
+                <!-- questions -->
+                <ng-container *ngIf="questions">
+                    <h1 class="mt20">
+                        On Going Quiz <b>{{ questions[0].quiz.title }}</b>
+                    </h1>
+                </ng-container>
+                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                    [(ngModel)]="q.givenAnswer" *ngFor="let q of questions; let i = index">
+                    <p>
+                        <b>Q {{ i + 1 }})</b>
+                        <span class="ml10" [innerHTML]="q.content"></span>
+                    </p>
+                    <mat-radio-button class="example-radio-button"  [value]="q.option1">
+                        {{ i + 1 }}). {{q.option1}}
+                    </mat-radio-button>
+                    <mat-radio-button class="example-radio-button"  [value]="q.option2">
+                        {{ i + 2 }}). {{q.option2}}
+                    </mat-radio-button>
+                    <mat-radio-button class="example-radio-button"  [value]="q.option3">
+                        {{ i + 3 }}) .{{q.option3}}
+                    </mat-radio-button>
+                    <mat-radio-button class="example-radio-button"  [value]="q.option4">
+                        {{ i + 4 }}). {{q.option4}}
+                    </mat-radio-button>
+                    <div>Your given answer is: {{q.givenAnswer}}</div>
+                </mat-radio-group>
+
+                
+
+                <div class="container text-center mt20 mb20">
+                    <button (click)="submitQuiz()" mat-raised-button color="primary">
+                        Submit Quiz
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <!-- progress -->
+
+                <mat-card style="margin-top: 70px">
+                    <mat-card-header>
+                        <mat-card-title> Progress </mat-card-title>
+                        <mat-card-subtitle>
+                            Quiz will automatically submitted when timer reaches to <b>0:0</b>
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <h1 class="text-center">{{ getFormattedTime() }}</h1>
+                        <mat-spinner mode="determinate" color="accent" style="margin: auto"
+                            [value]="(timer / (this.questions.length * 2 * 60)) * 100"></mat-spinner>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- show the result -->
+<div class="bootstrap-wrapper" *ngIf="isSubmit">
+    <div class="row mt20">
+        <div class="col-md-6 offset-md-3">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title> Quiz Result </mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="text-center">
+                    <h1>Marks Got :<b> {{ marksGot }}</b></h1>
+                    <h1>Correct Answers :<b>{{ correctAnswers }}</b></h1>
+                    <h1>Questions Attempted :<b>{{ attempted }}</b></h1>
+                </mat-card-content>
+                <mat-card-actions class="text-center">
+                    <button mat-raised-button (click)="printPage()" color="primary">Print</button>
+                    <button mat-raised-button color="accent" [routerLink]="'/user-dashboard/0'">
+                        Home
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>

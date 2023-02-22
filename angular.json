@@ -25,7 +25,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css",
+              "./node_modules/bootstrap-grid-only-css/dist/css/bootstrap-grid.min.css"
             ],
             "scripts": []
           },
@@ -34,9 +36,9 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+               },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
@@ -58,6 +60,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "examportal_frontend:build"
+          },
           "configurations": {
             "production": {
               "browserTarget": "examportal_frontend:build:production"
@@ -87,6 +92,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
